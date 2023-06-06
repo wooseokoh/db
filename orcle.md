@@ -1,3 +1,21 @@
+- SQL 처리 과정
+
+```
+Parser(SQL Parsing)
+- 문법체크, 정당성 체크 , 라이브러리 캐시에서 동일문장 찾기
+
+Optimizer(Optimization)
+- Query Transformer : 적절한 문장으로 변환하기 (meerge, inline view 풀기 등등)
+- Estimator : 비용계산 (모든 경우의 수 계산, 테이블수 조인방법에 따라 상당한 cpu 자원 소모가 동반됨)
+- Plan Generator : 비용이 적게 드는 plan 결정
+
+Row-Source Generator(Row-Source Generation)
+- 오라클만 해석가능한 기계어로 전환하기
+
+SQL Engine(Excution)
+```
+
+
 - 인덱스 스캔
 
 ```
