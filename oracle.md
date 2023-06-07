@@ -22,6 +22,24 @@ SQL Parsing -> Excution : 공유된 실행계획 재사용시 소프트파싱
 하드파싱 : SQL이 캐싱되어 있지 않을때 최적화 과정을 통해 실행계획 생성, Row-Source 생성하는 과정을 수행
 Optimization && Row-Source Generation : 저장된 SQL 실행계획이 없어서 신규SQL로 인지되면 하드파싱
 
+* 하드 파싱 비율이 적으면 문제 발생이 없지만 요청되는 SQL이 계속 하드파싱이 일어나면 CPU자원을 계속 요청하게 되면 이와 함께 SAG의 라이브러리 캐시에 이미 저정되어있는 SQL을 신규 SQL이 계속 밀어내서 결과적으로 모든 SQL이 계속 하드 파싱이 일어나서 CPU FULL..
+
+```
+
+- 인덱스
+
+```
+full scan
+1. SQL문에 조건이 존재하지 않는경우
+2. SQL문의 주어진 조건에 사용 가능한 인덱스가 없는경우
+3. 옵티마이저의 선택
+4. 병렬처리 방식일때 또는 힌트사용
+
+인덱스 VS FULL SCAN
+- SQL에 따라 인덱스를 타느것보다 FULL SCAN이 빠른 경우가 있다.
+- 인덱스를 이용시에는 RowId를 이용한 싱글블록io이며 full scan시에는 db_file_multi_block_read_count 파라메터 값만큼의 멀티블록io가 일어난다
+- 10 ~ 15% 이상부터는 full scan이 유리하다. : case by case
+
 ```
 
 
