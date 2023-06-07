@@ -13,6 +13,15 @@ Row-Source Generator(Row-Source Generation)
 - 오라클만 해석가능한 기계어로 전환하기
 
 SQL Engine(Excution)
+
+소프트파싱 vs 하드파싱
+
+소프트파싱 : Shared Pool에 존재하는 SQL 실행계획을 공유하여 최적화 과정 생략 SQL 실행
+SQL Parsing -> Excution : 공유된 실행계획 재사용시 소프트파싱
+
+하드파싱 : SQL이 캐싱되어 있지 않을때 최적화 과정을 통해 실행계획 생성, Row-Source 생성하는 과정을 수행
+Optimization && Row-Source Generation : 저장된 SQL 실행계획이 없어서 신규SQL로 인지되면 하드파싱
+
 ```
 
 
