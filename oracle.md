@@ -151,3 +151,55 @@ Hash Join
 3) 집합이 작다고 판단해서 뷰 MERGE를 하여 NL JOIN으로 무한정 풀고 있는 상황
 
 ```
+
+서브쿼리
+```sql
+단일 행 서브쿼리(Single-Row Subquery): 서브쿼리의 결과가 단일 행을 반환하는 경우 사용됩니다. 예를 들어, 다음은 주문 테이블에서 가장 비싼 제품의 가격을 조회하는 단일 행 서브쿼리의 예입니다.
+
+SELECT order_id, product_name, price
+FROM orders
+WHERE price = (SELECT MAX(price) FROM products);
+
+다중 행 서브쿼리(Multiple-Row Subquery): 서브쿼리의 결과가 여러 행을 반환하는 경우 사용됩니다. 예를 들어, 다음은 부서별로 평균 급여보다 많은 사원들을 조회하는 다중 행 서브쿼리의 예입니다.
+
+SELECT employee_id, employee_name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees GROUP BY department_id);
+
+다중 열 서브쿼리(Multiple-Column Subquery): 서브쿼리의 결과가 여러 열을 반환하는 경우 사용됩니다. 예를 들어, 다음은 주문 테이블에서 각 제품의 주문 수량과 재고 수량을 비교하는 다중 열 서브쿼리의 예입니다.
+
+SELECT product_name, order_quantity, stock_quantity
+FROM products
+WHERE (order_quantity, stock_quantity) IN (SELECT order_quantity, stock_quantity FROM orders);
+
+스칼라 쿼리 (Scalar Query):
+
+스칼라 쿼리는 단일 값(스칼라 값)을 반환하는 쿼리입니다.
+스칼라 값은 하나의 행과 하나의 열로 구성됩니다.
+주로 SELECT 문의 서브쿼리로 사용되며, SELECT 절에서도 사용될 수 있습니다.
+예를 들어, 다음은 products 테이블에서 가장 비싼 제품의 가격을 조회하는 스칼라 쿼리입니다:
+
+SELECT MAX(price) FROM products;
+
+인라인 뷰 (Inline View):
+
+인라인 뷰는 서브쿼리를 사용하여 쿼리 내에서 가상의 테이블을 생성하는 방법입니다.
+서브쿼리의 결과를 일시적인 테이블로 취급하며, 이를 주 쿼리에서 참조할 수 있습니다.
+인라인 뷰는 주로 FROM 절에서 사용됩니다.
+예를 들어, 다음은 employees 테이블에서 급여가 평균 이상인 사원들을 조회하는 인라인 뷰를 사용하는 예입니다:
+
+SELECT employee_id, employee_name, salary
+FROM (SELECT * FROM employees WHERE salary > (SELECT AVG(salary) FROM employees)) AS inline_view;
+
+서브쿼리 (Subquery):
+
+서브쿼리는 다른 쿼리 내에 포함된 쿼리입니다.
+서브쿼리는 주 쿼리의 일부로 사용되며, 서브쿼리의 결과는 주로 WHERE 절에서 사용됩니다.
+서브쿼리는 단일 행, 다중 행, 다중 열에 따라 단일 행 서브쿼리, 다중 행 서브쿼리, 다중 열 서브쿼리로 구분됩니다.
+서브쿼리는 SELECT 문, FROM 절, WHERE 절, HAVING 절, INSERT, UPDATE, DELETE 문 등 다양한 부분에서 사용될 수 있습니다.
+예를 들어, 다음은 주문 테이블에서 가장 비싼 제품을 주문한 고객을 조회하는 서브쿼리를 사용하는 예입니다:
+
+SELECT customer_id, customer_name
+FROM customers
+WHERE customer_id IN (SELECT customer_id FROM orders WHERE price = (SELECT MAX(price) FROM products));
+```
