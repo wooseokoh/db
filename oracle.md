@@ -176,7 +176,7 @@ WHERE (order_quantity, stock_quantity) IN (SELECT order_quantity, stock_quantity
 
 스칼라 쿼리는 단일 값(스칼라 값)을 반환하는 쿼리입니다.
 스칼라 값은 하나의 행과 하나의 열로 구성됩니다.
-주로 SELECT 문의 서브쿼리로 사용되며, SELECT 절에서도 사용될 수 있습니다.
+주로 SELECT 절, WHERE 절, HAVING 절, SET 절에서 사용됩니다.
 예를 들어, 다음은 products 테이블에서 가장 비싼 제품의 가격을 조회하는 스칼라 쿼리입니다:
 
 SELECT MAX(price) FROM products;
@@ -202,4 +202,24 @@ FROM (SELECT * FROM employees WHERE salary > (SELECT AVG(salary) FROM employees)
 SELECT customer_id, customer_name
 FROM customers
 WHERE customer_id IN (SELECT customer_id FROM orders WHERE price = (SELECT MAX(price) FROM products));
+
+상관 서브쿼리 (Correlated Subquery):
+
+상관 서브쿼리는 외부 쿼리와 서브쿼리 간에 관계가 있는 서브쿼리입니다.
+서브쿼리가 외부 쿼리의 컬럼을 참조하여 실행됩니다.
+상관 서브쿼리는 주로 외부 쿼리의 각 행에 대해 서브쿼리를 반복적으로 실행하는 경우 사용됩니다.
+
+EXISTS 서브쿼리 (EXISTS Subquery)
+
+EXISTS 서브쿼리는 서브쿼리의 결과가 존재하는지 여부를 확인하기 위해 사용됩니다.
+외부 쿼리의 조건에 따라 EXISTS 서브쿼리가 참이면 외부 쿼리 결과에 해당 행이 포함됩니다.
+주로 WHERE 절에서 사용되며, 서브쿼리의 결과는 중요하지 않고 존재 여부만 확인하는 용도로 사용됩니다.
+
+IN 서브쿼리 (IN Subquery)
+
+IN 서브쿼리는 외부 쿼리의 조건과 일치하는 값을 가진 서브쿼리 결과를 반환합니다.
+서브쿼리의 결과를 외부 쿼리의 조건에 대해 비교하여 참인 경우 외부 쿼리 결과에 해당 행이 포함됩니다.
+주로 WHERE 절에서 사용되며, 서브쿼리의 결과가 여러 값이거나 다른 쿼리일 수도 있습니다.
+서브쿼리는 복잡한 쿼리 작성을 가능하게 해주는 강력한 도구입니다. 그러나 서브쿼리의 성능을 고려하여 최적화하는 것이 중요하며, 적절한 인덱스를 사용하거나 조인을 활용하여 성능을 향상시킬 수 있습니다.
+
 ```
